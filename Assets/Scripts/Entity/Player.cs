@@ -72,19 +72,22 @@ public class Player : Entity
         bool note2 = this.EntityControls.Player.Note2.ReadValue<float>() != 0;
 
         if (note1 && note2)
-            MakeSound(3);
+            MakeSound(SoundType.BLUE);
         else if (note1)
-            MakeSound(2);
+            MakeSound(SoundType.YELLOW);
         else if (note2)
-            MakeSound(1);
+            MakeSound(SoundType.GREEN);
         else
-            MakeSound(0);
+            MakeSound(SoundType.RED);
     }
 
-    void MakeSound(int SoundType)
+    void MakeSound(SoundType soundType)
     {
         int numberOfBullets = 120;
-        ObjectPool pool = soundPools[SoundType];
+        int index = (int)soundType - 1;
+        ObjectPool pool = soundPools[index];
+
+        PlayFlute(soundType);
 
         for (int i = 0; i < numberOfBullets; i++)
         {
@@ -96,5 +99,27 @@ public class Player : Entity
             SoundScript soundScript = soundBullet.GetComponent<SoundScript>();
             soundScript.MoveForward();
         }
+    }
+
+    void PlayFlute(SoundType type)
+    {
+        string sfxKey = "";
+        switch (type)
+        {
+            case SoundType.RED:
+                sfxKey = SFXKeys.ROCK_FLUTE_00;
+                break;
+            case SoundType.GREEN:
+                sfxKey = SFXKeys.ROCK_FLUTE_01;
+                break;
+            case SoundType.YELLOW:
+                sfxKey = SFXKeys.ROCK_FLUTE_10;
+                break;
+            case SoundType.BLUE:
+                sfxKey = SFXKeys.ROCK_FLUTE_11;
+                break;
+        }
+
+        AudioManager.Instance.PlayAudio(AudioKeys.SFX, sfxKey);
     }
 }
