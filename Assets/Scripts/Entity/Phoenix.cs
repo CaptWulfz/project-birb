@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class Phoenix : Entity
 {
@@ -19,10 +20,17 @@ public class Phoenix : Entity
     
     private bool allowMove = true;
     private bool movingInDirection = false;
+    Controls controls;
+
+    private void Start()
+    {
+        controls = new Controls();
+        controls.Phoenix.Enable();
+    }
 
     private void Update()
     {
-        if (Input.GetKeyUp(KeyCode.Space))
+        if (controls.Phoenix.ToggleHold.WasReleasedThisFrame())
         {
             if (this.allowMove)
                 HoldPosition();
@@ -30,7 +38,7 @@ public class Phoenix : Entity
                 ComeToMe();
         }
 
-        if (Input.GetKeyUp(KeyCode.LeftArrow))
+        if (controls.Phoenix.Move.WasReleasedThisFrame())
         {
             MoveInDirection(BirdDirection.LEFT);
         } 
