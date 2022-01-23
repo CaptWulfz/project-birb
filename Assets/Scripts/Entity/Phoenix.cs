@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class Phoenix : Entity
 {
@@ -19,27 +20,34 @@ public class Phoenix : Entity
     
     private bool allowMove = true;
     private bool movingInDirection = false;
+    Controls controls;
+
+    private void Start()
+    {
+        controls = new Controls();
+        controls.Phoenix.Enable();
+    }
 
     private void Update()
     {
-        if (Input.GetKeyUp(KeyCode.Space))
+        if (controls.Phoenix.ToggleHold.WasReleasedThisFrame())
         {
             if (this.allowMove)
                 HoldPosition();
             else
                 ComeToMe();
         }
+
+        if (controls.Phoenix.Move.WasReleasedThisFrame())
+        {
+            MoveInDirection(BirdDirection.LEFT);
+        } 
     }
 
     private void FixedUpdate()
     {
         if (allowMove)
             FollowPlayer();
-
-        if (Input.GetKeyUp(KeyCode.LeftArrow))
-        {
-            MoveInDirection(BirdDirection.LEFT);
-        }
 
         if (this.movingInDirection)
         {
@@ -51,6 +59,15 @@ public class Phoenix : Entity
         }
     }
 
+    private void FollowPlayer()
+    {
+        if (Vector2.Distance(transform.position, this.player.position) > 1.5f)
+        {
+            this.FollowTarget(this.player, VELOCITY);
+        }
+    }
+
+    #region Commands
     private void HoldPosition()
     {
         this.allowMove = false;
@@ -82,11 +99,9 @@ public class Phoenix : Entity
         this.movingInDirection = true;
     }
 
-    private void FollowPlayer()
+    private void ListenAndRepeat()
     {
-        if (Vector2.Distance(transform.position, this.player.position) > 1.5f)
-        {
-            this.FollowTarget(this.player, VELOCITY);
-        }
+
     }
+    #endregion
 }
