@@ -6,6 +6,8 @@ public class Entity : MonoBehaviour
 {
     [SerializeField] protected Rigidbody2D rigidBody;
 
+    protected SoundType lastSoundHeard;
+
     private Controls controls;
     public Controls EntityControls
     {
@@ -22,7 +24,7 @@ public class Entity : MonoBehaviour
 
     protected virtual void Initialize()
     {
-
+        this.lastSoundHeard = SoundType.NONE;
     }
 
     protected void MovePosition(Vector2 movement)
@@ -44,7 +46,7 @@ public class Entity : MonoBehaviour
 
     protected virtual void OnCollisionEnter2D(Collision2D collision)
     {
-        
+        //Debug.Log(string.Format("Collision Detected! Entity {0} got hit by {1}", this.gameObject.name, collision.gameObject.name));
     }
 
     protected void OnCollisionExit2D(Collision2D collision)
@@ -54,7 +56,11 @@ public class Entity : MonoBehaviour
 
     protected virtual void OnTriggerEnter2D(Collider2D collision)
     {
-        
+        //Debug.Log(string.Format("Trigger Detected! Entity {0} got hit by {1}", this.gameObject.name, collision.gameObject.name));
+        if (collision.gameObject.tag == TagNames.SOUND_TAG)
+        {
+            this.lastSoundHeard = collision.gameObject.GetComponent<SoundScript>().GetSoundType();
+        }
     }
 
     protected virtual void OnTriggerExit2D(Collider2D collision)

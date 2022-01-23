@@ -3,10 +3,23 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+public enum PlayerOrientation
+{
+    UP,
+    DOWN,
+    LEFT,
+    RIGHT
+}
 public class Player : Entity
 {
     [SerializeField] List<ObjectPool> soundPools;
- 
+
+    private PlayerOrientation currOrientation;
+    public PlayerOrientation CurrOrientation
+    {
+        get { return this.currOrientation; }
+    }
+    
     private void Start()
     {
         Initialize();
@@ -16,6 +29,7 @@ public class Player : Entity
     {
         base.Initialize();
         this.Speed = 5f;
+        this.currOrientation = PlayerOrientation.UP;
         this.EntityControls = InputManager.Instance.GetControls();
         this.EntityControls.Player.Enable();
         this.EntityControls.Player.PlayMusic.performed += PlayMusic;
@@ -23,7 +37,7 @@ public class Player : Entity
 
     private void Update()
     {
-        
+        DetermineOrientation();
     }
 
     private void FixedUpdate()
@@ -35,6 +49,20 @@ public class Player : Entity
     {
         Vector2 move = this.EntityControls.Player.Movement.ReadValue<Vector2>();
         this.MovePosition(move * this.Speed);
+    }
+
+    private void DetermineOrientation()
+    {
+        if (this.EntityControls.Player.FaceUp.WasPressedThisFrame())
+            this.currOrientation = PlayerOrientation.UP;
+        else if (this.EntityControls.Player.FaceDown.WasPressedThisFrame())
+            this.currOrientation = PlayerOrientation.DOWN;
+        else if (this.EntityControls.Player.FaceLeft.WasPressedThisFrame())
+            this.currOrientation = PlayerOrientation.LEFT;
+        else if (this.EntityControls.Player.FaceRight.WasPressedThisFrame())
+            this.currOrientation = PlayerOrientation.RIGHT;
+
+        //Debug.Log(string.Format("Orientation: {0}", this.currOrientation.ToString()));
     }
 
     void PlayMusic(InputAction.CallbackContext context)

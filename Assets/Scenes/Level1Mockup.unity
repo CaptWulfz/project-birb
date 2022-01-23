@@ -2445,6 +2445,17 @@ Tilemap:
     e31: 0
     e32: 0
     e33: 1
+--- !u!114 &187695909 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 9129185876471447454, guid: 224a999c16b777f4b94fb36611279611, type: 3}
+  m_PrefabInstance: {fileID: 1842856322}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 326758e196939ae4d89a9524691586f9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &254350257
 GameObject:
   m_ObjectHideFlags: 0
@@ -3829,11 +3840,6 @@ Tilemap:
     e31: 0
     e32: 0
     e33: 1
---- !u!224 &992293810 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 9129185876471447453, guid: 224a999c16b777f4b94fb36611279611, type: 3}
-  m_PrefabInstance: {fileID: 1842856322}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1467926817
 GameObject:
   m_ObjectHideFlags: 0
@@ -3890,7 +3896,7 @@ PrefabInstance:
     - target: {fileID: 4757831847007844237, guid: 238ab8a349f68ef48a923317282934d1, type: 3}
       propertyPath: player
       value: 
-      objectReference: {fileID: 992293810}
+      objectReference: {fileID: 187695909}
     - target: {fileID: 4757831847007844240, guid: 238ab8a349f68ef48a923317282934d1, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
