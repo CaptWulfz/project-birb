@@ -16,21 +16,27 @@ public class Phoenix : Entity
     [SerializeField] Transform player;
 
     private const float MAX_DISTANCE_FOR_WALK = 5f;
-    private const float VELOCITY = 5f;
     
     private bool allowMove = true;
     private bool movingInDirection = false;
-    Controls controls;
 
     private void Start()
     {
-        controls = new Controls();
-        controls.Phoenix.Enable();
+        Initialize();
     }
+
+    protected override void Initialize()
+    {
+        base.Initialize();
+        this.Speed = 5f;
+        this.EntityControls = InputManager.Instance.GetControls();
+        this.EntityControls.Phoenix.Enable();
+    }
+
 
     private void Update()
     {
-        if (controls.Phoenix.ToggleHold.WasReleasedThisFrame())
+        if (this.EntityControls.Phoenix.ToggleHold.WasReleasedThisFrame())
         {
             if (this.allowMove)
                 HoldPosition();
@@ -38,7 +44,7 @@ public class Phoenix : Entity
                 ComeToMe();
         }
 
-        if (controls.Phoenix.Move.WasReleasedThisFrame())
+        if (this.EntityControls.Phoenix.Move.WasReleasedThisFrame())
         {
             MoveInDirection(BirdDirection.LEFT);
         } 
@@ -63,7 +69,7 @@ public class Phoenix : Entity
     {
         if (Vector2.Distance(transform.position, this.player.position) > 1.5f)
         {
-            this.FollowTarget(this.player, VELOCITY);
+            this.FollowTarget(this.player, this.Speed);
         }
     }
 
@@ -86,11 +92,11 @@ public class Phoenix : Entity
         switch (direction)
         {
             case BirdDirection.LEFT:
-                xMov = -VELOCITY;
+                xMov = -this.Speed;
                 yMov = 0;
                 break;
             case BirdDirection.RIGHT:
-                xMov = VELOCITY;
+                xMov = this.Speed;
                 yMov = 0;
                 break;
         }
