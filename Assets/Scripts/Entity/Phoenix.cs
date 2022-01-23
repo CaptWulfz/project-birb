@@ -29,17 +29,17 @@ public class Phoenix : Entity
             else
                 ComeToMe();
         }
+
+        if (Input.GetKeyUp(KeyCode.LeftArrow))
+        {
+            MoveInDirection(BirdDirection.LEFT);
+        } 
     }
 
     private void FixedUpdate()
     {
         if (allowMove)
             FollowPlayer();
-
-        if (Input.GetKeyUp(KeyCode.LeftArrow))
-        {
-            MoveInDirection(BirdDirection.LEFT);
-        }
 
         if (this.movingInDirection)
         {
@@ -51,6 +51,15 @@ public class Phoenix : Entity
         }
     }
 
+    private void FollowPlayer()
+    {
+        if (Vector2.Distance(transform.position, this.player.position) > 1.5f)
+        {
+            this.FollowTarget(this.player, VELOCITY);
+        }
+    }
+
+    #region Commands
     private void HoldPosition()
     {
         this.allowMove = false;
@@ -82,11 +91,9 @@ public class Phoenix : Entity
         this.movingInDirection = true;
     }
 
-    private void FollowPlayer()
+    private void ListenAndRepeat()
     {
-        if (Vector2.Distance(transform.position, this.player.position) > 1.5f)
-        {
-            this.FollowTarget(this.player, VELOCITY);
-        }
+
     }
+    #endregion
 }
