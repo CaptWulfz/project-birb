@@ -6,6 +6,25 @@ public class Entity : MonoBehaviour
 {
     [SerializeField] protected Rigidbody2D rigidBody;
 
+    private Controls controls;
+    public Controls EntityControls
+    {
+        get { return this.controls; }
+        set { this.controls = value; }
+    }
+
+    private float speed = 5f;
+    protected float Speed
+    {
+        get { return this.speed; }
+        set { this.speed = value; }
+    }
+
+    protected virtual void Initialize()
+    {
+
+    }
+
     protected void MovePosition(Vector2 movement)
     {
         this.rigidBody.velocity = movement;
@@ -20,4 +39,27 @@ public class Entity : MonoBehaviour
     {
         this.transform.LookAt(transform.position + new Vector3(0, 0, 1), target.position - this.transform.position);
     }
+
+    #region Collision Events
+
+    protected virtual void OnCollisionEnter2D(Collision2D collision)
+    {
+        
+    }
+
+    protected void OnCollisionExit2D(Collision2D collision)
+    {
+        
+    }
+
+    protected virtual void OnTriggerEnter2D(Collider2D collision)
+    {
+        
+    }
+
+    protected virtual void OnTriggerExit2D(Collider2D collision)
+    {
+        
+    }
+    #endregion
 }

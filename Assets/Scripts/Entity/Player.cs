@@ -5,22 +5,68 @@ using UnityEngine.InputSystem;
 
 public class Player : Entity
 {
-    private const float SPEED = 5f;
-    //private float xMov = 0;
-    //private float yMov = 0;
-
-    Controls controls;
-
+    [SerializeField] List<ObjectPool> soundPools;
+ 
     private void Start()
     {
-        controls = new Controls();
-        controls.Player.Enable();
+        Initialize();
+    }
+
+    protected override void Initialize()
+    {
+        base.Initialize();
+        this.Speed = 5f;
+        this.EntityControls = InputManager.Instance.GetControls();
+        this.EntityControls.Player.Enable();
+        this.EntityControls.Player.PlayMusic.performed += PlayMusic;
     }
 
     private void Update()
     {
-        Vector2 move = controls.Player.Movement.ReadValue<Vector2>();
-        Debug.Log(string.Format("Move Value: {0}", move));
-        this.MovePosition(move * SPEED);
+        
+    }
+
+    private void FixedUpdate()
+    {
+        MovePlayer();
+    }
+
+    private void MovePlayer()
+    {
+        Vector2 move = this.EntityControls.Player.Movement.ReadValue<Vector2>();
+        this.MovePosition(move * this.Speed);
+    }
+
+    void PlayMusic(InputAction.CallbackContext context)
+    {
+
+        bool note1 = this.EntityControls.Player.Note1.ReadValue<float>() != 0;
+        bool note2 = this.EntityControls.Player.Note2.ReadValue<float>() != 0;
+
+        if (note1 && note2)
+            MakeSound(3);
+        else if (note1)
+            MakeSound(2);
+        else if (note2)
+            MakeSound(1);
+        else
+            MakeSound(0);
+    }
+
+    void MakeSound(int SoundType)
+    {
+        int numberOfBullets = 120;
+        ObjectPool pool = soundPools[SoundType];
+
+        for (int i = 0; i < numberOfBullets; i++)
+        {
+            GameObject soundBullet = pool.GetPoolObject();
+            soundBullet.transform.position = transform.position;
+            soundBullet.transform.rotation = transform.rotation;
+            soundBullet.transform.Rotate(0, 0, (360 / numberOfBullets) * i);
+
+            SoundScript soundScript = soundBullet.GetComponent<SoundScript>();
+            soundScript.MoveForward();
+        }
     }
 }
