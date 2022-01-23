@@ -13,12 +13,18 @@ public class Phoenix : Entity
         RIGHT
     }
 
-    [SerializeField] Transform player;
+    [SerializeField] Player player;
 
     private const float MAX_DISTANCE_FOR_WALK = 5f;
-    
+    private const float SOUND_COOLDOWN_VALUE = 2f;
+
+    private Coroutine listenCoroutine;
+
     private bool allowMove = true;
     private bool movingInDirection = false;
+    private bool canListenToSound = true;
+
+    private float soundCooldown = 0f;
 
     private void Start()
     {
@@ -29,25 +35,26 @@ public class Phoenix : Entity
     {
         base.Initialize();
         this.Speed = 5f;
-        this.EntityControls = InputManager.Instance.GetControls();
-        this.EntityControls.Phoenix.Enable();
+        this.soundCooldown = 0f;
+        StartListeningToSound();
     }
 
 
     private void Update()
     {
-        if (this.EntityControls.Phoenix.ToggleHold.WasReleasedThisFrame())
+        if ((int) this.soundCooldown > 0f)
         {
-            if (this.allowMove)
-                HoldPosition();
-            else
-                ComeToMe();
+            this.soundCooldown -= Time.deltaTime;
+        } else
+        {
+            if (!this.canListenToSound)
+            {
+                this.soundCooldown = 0f;
+                this.canListenToSound = true;
+                //Debug.Log("CAN LISTEN TO SOUND AGAIN!");
+                StartListeningToSound();
+            }
         }
-
-        if (this.EntityControls.Phoenix.Move.WasReleasedThisFrame())
-        {
-            MoveInDirection(BirdDirection.LEFT);
-        } 
     }
 
     private void FixedUpdate()
@@ -57,7 +64,7 @@ public class Phoenix : Entity
 
         if (this.movingInDirection)
         {
-            if (Vector2.Distance(transform.position, this.player.position) >= MAX_DISTANCE_FOR_WALK)
+            if (Vector2.Distance(transform.position, this.player.transform.position) >= MAX_DISTANCE_FOR_WALK)
             {
                 this.movingInDirection = false;
                 this.MovePosition(new Vector2(0f, 0f));
@@ -67,10 +74,56 @@ public class Phoenix : Entity
 
     private void FollowPlayer()
     {
-        if (Vector2.Distance(transform.position, this.player.position) > 1.5f)
+        if (Vector2.Distance(transform.position, this.player.transform.position) > 1.5f)
         {
-            this.FollowTarget(this.player, this.Speed);
+            this.FollowTarget(this.player.transform, this.Speed);
         }
+    }
+
+    private void EvaluateSound()
+    {
+        switch (lastSoundHeard)
+        {
+            case SoundType.RED:
+                HoldPosition();
+                break;
+            case SoundType.GREEN:
+                ComeToMe();
+                break;
+            case SoundType.YELLOW:
+                MoveInDirection();
+                break;
+            case SoundType.BLUE:
+                ListenAndRepeat();
+                break;
+            default:
+                break;
+        }
+
+        lastSoundHeard = SoundType.NONE;
+        //StartListeningToSound();
+    }
+
+    private IEnumerator ListenToSound()
+    {
+        yield return new WaitUntil(() => { return this.lastSoundHeard != SoundType.NONE && this.canListenToSound; });
+
+        if (this.canListenToSound)
+        {
+            this.soundCooldown = SOUND_COOLDOWN_VALUE;
+            this.canListenToSound = false;
+            EvaluateSound();
+        }
+    }
+
+    private void StartListeningToSound()
+    {
+        this.listenCoroutine = StartCoroutine(ListenToSound());
+    }
+
+    private void StopListeningToSound()
+    {
+        StopCoroutine(this.listenCoroutine);
     }
 
     #region Commands
@@ -84,19 +137,32 @@ public class Phoenix : Entity
         this.allowMove = true;
     }
 
-    private void MoveInDirection(BirdDirection direction)
+    private void MoveInDirection()
     {
+        PlayerOrientation direction = player.CurrOrientation;
         HoldPosition();
         float xMov = 0;
         float yMov = 0;
         switch (direction)
         {
-            case BirdDirection.LEFT:
+            case PlayerOrientation.UP:
+                xMov = 0;
+                yMov = this.Speed;
+                break;
+            case PlayerOrientation.DOWN:
+                xMov = 0;
+                yMov = -this.Speed;
+                break;
+            case PlayerOrientation.LEFT:
                 xMov = -this.Speed;
                 yMov = 0;
                 break;
-            case BirdDirection.RIGHT:
+            case PlayerOrientation.RIGHT:
                 xMov = this.Speed;
+                yMov = 0;
+                break;
+            default:
+                xMov = 0;
                 yMov = 0;
                 break;
         }
@@ -108,6 +174,14 @@ public class Phoenix : Entity
     private void ListenAndRepeat()
     {
 
+    }
+    #endregion
+
+    #region Override Collider Events
+    protected override void OnTriggerEnter2D(Collider2D collision)
+    {
+        base.OnTriggerEnter2D(collision);
+        //Debug.Log("Last Sound Heard: " + this.lastSoundHeard.ToString());
     }
     #endregion
 }

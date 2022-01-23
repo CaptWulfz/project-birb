@@ -6,7 +6,7 @@ public class SoundScript : Poolable
 {
     [SerializeField] float lifetime;
     [SerializeField] float speed;
-    [SerializeField] int soundType;
+    [SerializeField] SoundType soundType;
 
     float time;
     Rigidbody2D rb;
@@ -41,5 +41,14 @@ public class SoundScript : Poolable
     }
 
 
-    public int GetSoundType() { return soundType; }
+    public SoundType GetSoundType() { return soundType; }
+}
+
+public enum SoundType
+{
+    NONE,
+    RED,
+    GREEN,
+    YELLOW,
+    BLUE
 }

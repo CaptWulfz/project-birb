@@ -62,6 +62,42 @@ public partial class @Controls : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""FaceUp"",
+                    ""type"": ""Button"",
+                    ""id"": ""0083aa52-d773-4552-a31a-4febe2faa686"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""FaceDown"",
+                    ""type"": ""Button"",
+                    ""id"": ""641e9aaf-049b-4d59-9cf5-e4f9b61eb330"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""FaceLeft"",
+                    ""type"": ""Button"",
+                    ""id"": ""a5dbe1fa-e08d-4f5f-8f7e-100b67af0544"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""FaceRight"",
+                    ""type"": ""Button"",
+                    ""id"": ""2272b377-773f-4bb0-808f-c31ca2ae746f"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -152,6 +188,50 @@ public partial class @Controls : IInputActionCollection2, IDisposable
                     ""action"": ""Note2"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""b7473504-ebc0-4b11-99a3-659cedd773eb"",
+                    ""path"": ""<Keyboard>/w"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""FaceUp"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""a2c1650b-8e40-4509-9d40-3a39cfa03446"",
+                    ""path"": ""<Keyboard>/s"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""FaceDown"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""3593e423-bcb3-460e-aebd-bf5c15b7e3bc"",
+                    ""path"": ""<Keyboard>/a"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""FaceLeft"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""1ed123ce-1697-4c0f-aead-b11c79574150"",
+                    ""path"": ""<Keyboard>/d"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""FaceRight"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -212,6 +292,10 @@ public partial class @Controls : IInputActionCollection2, IDisposable
         m_Player_PlayMusic = m_Player.FindAction("PlayMusic", throwIfNotFound: true);
         m_Player_Note1 = m_Player.FindAction("Note1", throwIfNotFound: true);
         m_Player_Note2 = m_Player.FindAction("Note2", throwIfNotFound: true);
+        m_Player_FaceUp = m_Player.FindAction("FaceUp", throwIfNotFound: true);
+        m_Player_FaceDown = m_Player.FindAction("FaceDown", throwIfNotFound: true);
+        m_Player_FaceLeft = m_Player.FindAction("FaceLeft", throwIfNotFound: true);
+        m_Player_FaceRight = m_Player.FindAction("FaceRight", throwIfNotFound: true);
         // Phoenix
         m_Phoenix = asset.FindActionMap("Phoenix", throwIfNotFound: true);
         m_Phoenix_ToggleHold = m_Phoenix.FindAction("ToggleHold", throwIfNotFound: true);
@@ -279,6 +363,10 @@ public partial class @Controls : IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_PlayMusic;
     private readonly InputAction m_Player_Note1;
     private readonly InputAction m_Player_Note2;
+    private readonly InputAction m_Player_FaceUp;
+    private readonly InputAction m_Player_FaceDown;
+    private readonly InputAction m_Player_FaceLeft;
+    private readonly InputAction m_Player_FaceRight;
     public struct PlayerActions
     {
         private @Controls m_Wrapper;
@@ -287,6 +375,10 @@ public partial class @Controls : IInputActionCollection2, IDisposable
         public InputAction @PlayMusic => m_Wrapper.m_Player_PlayMusic;
         public InputAction @Note1 => m_Wrapper.m_Player_Note1;
         public InputAction @Note2 => m_Wrapper.m_Player_Note2;
+        public InputAction @FaceUp => m_Wrapper.m_Player_FaceUp;
+        public InputAction @FaceDown => m_Wrapper.m_Player_FaceDown;
+        public InputAction @FaceLeft => m_Wrapper.m_Player_FaceLeft;
+        public InputAction @FaceRight => m_Wrapper.m_Player_FaceRight;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -308,6 +400,18 @@ public partial class @Controls : IInputActionCollection2, IDisposable
                 @Note2.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnNote2;
                 @Note2.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnNote2;
                 @Note2.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnNote2;
+                @FaceUp.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnFaceUp;
+                @FaceUp.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnFaceUp;
+                @FaceUp.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnFaceUp;
+                @FaceDown.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnFaceDown;
+                @FaceDown.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnFaceDown;
+                @FaceDown.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnFaceDown;
+                @FaceLeft.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnFaceLeft;
+                @FaceLeft.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnFaceLeft;
+                @FaceLeft.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnFaceLeft;
+                @FaceRight.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnFaceRight;
+                @FaceRight.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnFaceRight;
+                @FaceRight.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnFaceRight;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -324,6 +428,18 @@ public partial class @Controls : IInputActionCollection2, IDisposable
                 @Note2.started += instance.OnNote2;
                 @Note2.performed += instance.OnNote2;
                 @Note2.canceled += instance.OnNote2;
+                @FaceUp.started += instance.OnFaceUp;
+                @FaceUp.performed += instance.OnFaceUp;
+                @FaceUp.canceled += instance.OnFaceUp;
+                @FaceDown.started += instance.OnFaceDown;
+                @FaceDown.performed += instance.OnFaceDown;
+                @FaceDown.canceled += instance.OnFaceDown;
+                @FaceLeft.started += instance.OnFaceLeft;
+                @FaceLeft.performed += instance.OnFaceLeft;
+                @FaceLeft.canceled += instance.OnFaceLeft;
+                @FaceRight.started += instance.OnFaceRight;
+                @FaceRight.performed += instance.OnFaceRight;
+                @FaceRight.canceled += instance.OnFaceRight;
             }
         }
     }
@@ -375,6 +491,10 @@ public partial class @Controls : IInputActionCollection2, IDisposable
         void OnPlayMusic(InputAction.CallbackContext context);
         void OnNote1(InputAction.CallbackContext context);
         void OnNote2(InputAction.CallbackContext context);
+        void OnFaceUp(InputAction.CallbackContext context);
+        void OnFaceDown(InputAction.CallbackContext context);
+        void OnFaceLeft(InputAction.CallbackContext context);
+        void OnFaceRight(InputAction.CallbackContext context);
     }
     public interface IPhoenixActions
     {
