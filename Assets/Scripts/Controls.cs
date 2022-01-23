@@ -43,7 +43,7 @@ public partial class @Controls : IInputActionCollection2, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
-                    ""initialStateCheck"": true
+                    ""initialStateCheck"": false
                 },
                 {
                     ""name"": ""Note1"",
@@ -154,6 +154,54 @@ public partial class @Controls : IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": false
                 }
             ]
+        },
+        {
+            ""name"": ""Phoenix"",
+            ""id"": ""0cc9e5dd-8cff-4d41-a6f5-bd8456e8b925"",
+            ""actions"": [
+                {
+                    ""name"": ""ToggleHold"",
+                    ""type"": ""Button"",
+                    ""id"": ""49bbec26-f88e-4f4e-b49d-98665d308fa6"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Move"",
+                    ""type"": ""Button"",
+                    ""id"": ""49ad4832-121e-4611-8834-1008c9d53e93"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""22cca46d-86b4-4edd-b758-f51d33a8be43"",
+                    ""path"": ""<Keyboard>/space"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ToggleHold"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""72fe70f9-9e31-4fcf-9cc3-9836fa60a671"",
+                    ""path"": ""<Keyboard>/leftArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": []
@@ -164,6 +212,10 @@ public partial class @Controls : IInputActionCollection2, IDisposable
         m_Player_PlayMusic = m_Player.FindAction("PlayMusic", throwIfNotFound: true);
         m_Player_Note1 = m_Player.FindAction("Note1", throwIfNotFound: true);
         m_Player_Note2 = m_Player.FindAction("Note2", throwIfNotFound: true);
+        // Phoenix
+        m_Phoenix = asset.FindActionMap("Phoenix", throwIfNotFound: true);
+        m_Phoenix_ToggleHold = m_Phoenix.FindAction("ToggleHold", throwIfNotFound: true);
+        m_Phoenix_Move = m_Phoenix.FindAction("Move", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -276,11 +328,57 @@ public partial class @Controls : IInputActionCollection2, IDisposable
         }
     }
     public PlayerActions @Player => new PlayerActions(this);
+
+    // Phoenix
+    private readonly InputActionMap m_Phoenix;
+    private IPhoenixActions m_PhoenixActionsCallbackInterface;
+    private readonly InputAction m_Phoenix_ToggleHold;
+    private readonly InputAction m_Phoenix_Move;
+    public struct PhoenixActions
+    {
+        private @Controls m_Wrapper;
+        public PhoenixActions(@Controls wrapper) { m_Wrapper = wrapper; }
+        public InputAction @ToggleHold => m_Wrapper.m_Phoenix_ToggleHold;
+        public InputAction @Move => m_Wrapper.m_Phoenix_Move;
+        public InputActionMap Get() { return m_Wrapper.m_Phoenix; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(PhoenixActions set) { return set.Get(); }
+        public void SetCallbacks(IPhoenixActions instance)
+        {
+            if (m_Wrapper.m_PhoenixActionsCallbackInterface != null)
+            {
+                @ToggleHold.started -= m_Wrapper.m_PhoenixActionsCallbackInterface.OnToggleHold;
+                @ToggleHold.performed -= m_Wrapper.m_PhoenixActionsCallbackInterface.OnToggleHold;
+                @ToggleHold.canceled -= m_Wrapper.m_PhoenixActionsCallbackInterface.OnToggleHold;
+                @Move.started -= m_Wrapper.m_PhoenixActionsCallbackInterface.OnMove;
+                @Move.performed -= m_Wrapper.m_PhoenixActionsCallbackInterface.OnMove;
+                @Move.canceled -= m_Wrapper.m_PhoenixActionsCallbackInterface.OnMove;
+            }
+            m_Wrapper.m_PhoenixActionsCallbackInterface = instance;
+            if (instance != null)
+            {
+                @ToggleHold.started += instance.OnToggleHold;
+                @ToggleHold.performed += instance.OnToggleHold;
+                @ToggleHold.canceled += instance.OnToggleHold;
+                @Move.started += instance.OnMove;
+                @Move.performed += instance.OnMove;
+                @Move.canceled += instance.OnMove;
+            }
+        }
+    }
+    public PhoenixActions @Phoenix => new PhoenixActions(this);
     public interface IPlayerActions
     {
         void OnMovement(InputAction.CallbackContext context);
         void OnPlayMusic(InputAction.CallbackContext context);
         void OnNote1(InputAction.CallbackContext context);
         void OnNote2(InputAction.CallbackContext context);
+    }
+    public interface IPhoenixActions
+    {
+        void OnToggleHold(InputAction.CallbackContext context);
+        void OnMove(InputAction.CallbackContext context);
     }
 }
