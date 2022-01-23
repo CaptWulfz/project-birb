@@ -1,0 +1,52 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6db2a939890abd846bfdd905c3897b18, type: 3}
+  m_Name: AudioMap
+  m_EditorClassIdentifier: 
+  SFX:
+  - key: Rock_Flute_00
+    source: {fileID: 8300000, guid: 461dd5b692309144bbe379e52ef87f89, type: 3}
+  - key: Rock_Flute_01
+    source: {fileID: 8300000, guid: 1b217f9d78f43284c837b7b5837b8154, type: 3}
+  - key: Rock_Flute_10
+    source: {fileID: 8300000, guid: 763623b8fd338d540b340bb33bea9ac4, type: 3}
+  - key: Rock_Flute_11
+    source: {fileID: 8300000, guid: d48007266e66ded43b205fd2bcde02b7, type: 3}
+  - key: Phoenix_Response_00
+    source: {fileID: 8300000, guid: ef64acf46e69f2047a85458a60821925, type: 3}
+  - key: Phoenix_Response_01
+    source: {fileID: 8300000, guid: 70ff7b7d14c32204ab82ebfec2cc21ef, type: 3}
+  - key: Phoenix_Response_10
+    source: {fileID: 8300000, guid: fb0e010fbdfa84a4e9ff4bfbd6f82083, type: 3}
+  - key: Phoenix_Response_11
+    source: {fileID: 8300000, guid: 24ef7f65e230ba0499182c461151ff2e, type: 3}
+  - key: Ancient_Rune_Flute_00
+    source: {fileID: 8300000, guid: a54217133e7c28f46b57f0f02d709b64, type: 3}
+  - key: Ancient_Rune_Flute_01
+    source: {fileID: 8300000, guid: 3d59d670c756e1140abf7c9b2f5336e9, type: 3}
+  - key: Ancient_Rune_Flute_10
+    source: {fileID: 8300000, guid: 7a6cf8b57d0e40449adb38e8614f0f28, type: 3}
+  - key: Ancient_Rune_Flute_11
+    source: {fileID: 8300000, guid: 6273b03e006274d43af3d2c012e500b3, type: 3}
+  - key: Ancient_Rune_Puzzle_Failed
+    source: {fileID: 8300000, guid: a880ca8856fdc614284521d0e04c315c, type: 3}
+  - key: Ancient_Rune_Puzzle_Solved
+    source: {fileID: 8300000, guid: 93d4ce8b40486454f983df0da6c68515, type: 3}
+  - key: Ancient_Rune_Hum
+    source: {fileID: 8300000, guid: 76c4a7e6e7f3f3543b1520387279df1c, type: 3}
+  - key: UI_Success
+    source: {fileID: 8300000, guid: 6c3a8fe07f8c4ed49a60935edf69a9e8, type: 3}
+  Music:
+  - key: Theme
+    source: {fileID: 8300000, guid: 318a7fd96fb40804dab93115b7c29e3c, type: 3}
+  - key: Boss_1
+    source: {fileID: 8300000, guid: cc8b930fc61ca1746a58e8c521cba77d, type: 3}
