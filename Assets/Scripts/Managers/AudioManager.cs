@@ -133,6 +133,10 @@ public class SFXKeys
     public const string ANCIENT_RUNE_PUZZLE_SOLVED = "Ancient_Rune_Puzzle_Solved";
     public const string ANCIENT_RUNE_PUZZLE_FAILED = "Ancient_Rune_Puzzle_Failed";
     public const string ANCIENT_RUNE_HUM= "Ancient_Rune_Hum";
+    public const string ANCIENT_RUNE_ACTIVATE = "Ancient_Rune_Activate";
+
+    //Misc
+    public const string MOVING_SLAB = "Moving_Slab";
 
     //UI SFX
     public const string UI_SUCCESS = "UI_Success";

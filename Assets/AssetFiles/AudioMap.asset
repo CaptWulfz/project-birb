@@ -43,8 +43,12 @@ MonoBehaviour:
     source: {fileID: 8300000, guid: 93d4ce8b40486454f983df0da6c68515, type: 3}
   - key: Ancient_Rune_Hum
     source: {fileID: 8300000, guid: 76c4a7e6e7f3f3543b1520387279df1c, type: 3}
+  - key: Ancient_Rune_Activate
+    source: {fileID: 8300000, guid: f9eb8973b95e77b4f98b46d410d6981f, type: 3}
   - key: UI_Success
     source: {fileID: 8300000, guid: 6c3a8fe07f8c4ed49a60935edf69a9e8, type: 3}
+  - key: Moving_Slab
+    source: {fileID: 8300000, guid: 4373ad5e696c9bb44911d26aac8dfa08, type: 3}
   Music:
   - key: Theme
     source: {fileID: 8300000, guid: 318a7fd96fb40804dab93115b7c29e3c, type: 3}
