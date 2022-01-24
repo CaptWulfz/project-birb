@@ -56,10 +56,11 @@ public class Entity : MonoBehaviour
 
     protected virtual void OnTriggerEnter2D(Collider2D collision)
     {
-        //Debug.Log(string.Format("Trigger Detected! Entity {0} got hit by {1}", this.gameObject.name, collision.gameObject.name));
         if (collision.gameObject.tag == TagNames.SOUND_TAG)
         {
-            this.lastSoundHeard = collision.gameObject.GetComponent<SoundScript>().GetSoundType();
+            SoundScript sound = collision.gameObject.GetComponent<SoundScript>();
+            if (sound.OwnerSource != this.gameObject.tag)
+                this.lastSoundHeard = collision.gameObject.GetComponent<SoundScript>().GetSoundType();
         }
     }
 
