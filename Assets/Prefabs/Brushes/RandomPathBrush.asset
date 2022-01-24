@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 888d28c1337c48846b69d30fcc25865b, type: 3}
-  m_Name: RandomStoneTiles
+  m_Name: RandomPathBrush
   m_EditorClassIdentifier: 
   m_Cells:
-  - m_Tile: {fileID: 0}
+  - m_Tile: {fileID: 11400000, guid: 74f5d5560ec1f094a97cd0100a04a3fc, type: 2}
     m_Matrix:
       e00: 1
       e01: 0
@@ -36,4 +36,10 @@ MonoBehaviour:
   m_Pivot: {x: 0, y: 0, z: 0}
   m_CanChangeZPosition: 0
   m_FloodFillContiguousOnly: 1
-  randomTiles: []
+  randomTiles:
+  - {fileID: 11400000, guid: 481bf4a930de85b46a415f5c530ed230, type: 2}
+  - {fileID: 11400000, guid: 59c7ab9d479edf6429a63f75fbbfb8d8, type: 2}
+  - {fileID: 11400000, guid: bdcbadd1d34bade499d3387002298f87, type: 2}
+  - {fileID: 11400000, guid: 88a6a480c67e4434bbc5560006b716ca, type: 2}
+  - {fileID: 11400000, guid: f9303bf8a013b2047ac263c00e1065ec, type: 2}
+  - {fileID: 11400000, guid: e7ebec2b5412cb0459799b46aa4152b2, type: 2}
