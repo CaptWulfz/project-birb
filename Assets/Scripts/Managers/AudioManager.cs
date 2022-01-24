@@ -61,9 +61,9 @@ public class AudioManager : Singleton<AudioManager>
         source.volume = value;
     }
 
-    public void ToggleLoop(string key, bool value)
+    public void ToggleLoop(string sourceKey, bool value)
     {
-        AudioSource source = GetSource(key);
+        AudioSource source = GetSource(sourceKey);
         source.loop = value;
     }
     #endregion
