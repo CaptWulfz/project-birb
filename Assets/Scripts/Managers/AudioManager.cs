@@ -120,10 +120,10 @@ public class SFXKeys
     public const string ROCK_FLUTE_11 = "Rock_Flute_11";
 
     //Phoenix SFX
-    public const string PHOENIX_RESPONE_00 = "Phoenix_Response_00";
-    public const string PHOENIX_RESPONE_01 = "Phoenix_Response_01";
-    public const string PHOENIX_RESPONE_10 = "Phoenix_Response_10";
-    public const string PHOENIX_RESPONE_11 = "Phoenix_Response_11";
+    public const string PHOENIX_RESPONSE_00 = "Phoenix_Response_00";
+    public const string PHOENIX_RESPONSE_01 = "Phoenix_Response_01";
+    public const string PHOENIX_RESPONSE_10 = "Phoenix_Response_10";
+    public const string PHOENIX_RESPONSE_11 = "Phoenix_Response_11";
 
     // Ancient Rune SFX
     public const string ANCIENT_RUNE_FLUTE_00 = "Ancient_Rune_Flute_00";

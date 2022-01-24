@@ -97,6 +97,7 @@ public class Player : Entity
             soundBullet.transform.Rotate(0, 0, (360 / numberOfBullets) * i);
 
             SoundScript soundScript = soundBullet.GetComponent<SoundScript>();
+            soundScript.OwnerSource = this.gameObject.tag;
             soundScript.MoveForward();
         }
     }
