@@ -28,7 +28,7 @@ public class RuneNote : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D collider)
     {
-        if (int.Parse(collider.gameObject.name) != noteType)
+        if (collider.gameObject.name != noteType.ToString())
             return;
 
         SetActivated(true);
