@@ -38,6 +38,7 @@ public class Phoenix : Entity
     [SerializeField] Player player;
     [SerializeField] List<ObjectPool> soundPools;
 
+    private const float DISTANCE_FROM_PLAYER = 1.5f;
     private const float MAX_DISTANCE_FOR_WALK = 5f;
     private const float SOUND_COOLDOWN_VALUE = 2f;
     private const float MIMIC_SOUND_DELAY = 3f;
@@ -140,7 +141,7 @@ public class Phoenix : Entity
 
     private void MimicSounds() 
     {
-        StopListeningToSound();
+        //StopListeningToSound();
         if (this.currSoundToMimic == null && this.mimicList.Count > 0)
             this.currSoundToMimic = this.mimicList.Dequeue();
 
@@ -161,21 +162,30 @@ public class Phoenix : Entity
             } else
             {
                 //Debug.Log("Sounds Done, Come back to me!");
-                this.startMimicSounds = false;
-                this.isListeningAndRepeat = false;
-                this.soundCooldown = SOUND_COOLDOWN_VALUE + 1f;
-                this.mimicSoundDelay = MIMIC_SOUND_DELAY;
-                this.canListenToSound = false;
-                this.mimicTiming = 0f;
-                ComeToMe();
+                ResetListenAndRepeat();
             }
 
         }
     }
 
+    private void ResetListenAndRepeat()
+    {
+        this.startMimicSounds = false;
+        this.isListeningAndRepeat = false;
+        this.mimicSoundDelay = MIMIC_SOUND_DELAY;
+        this.mimicTiming = 0f;
+
+        this.lastSoundHeard = SoundType.NONE;
+
+        this.soundCooldown = SOUND_COOLDOWN_VALUE + 2f;
+        this.canListenToSound = false;
+
+        ComeToMe();
+    }
+
     private void FollowPlayer()
     {
-        if (Vector2.Distance(transform.position, this.player.transform.position) > 1.5f)
+        if (Vector2.Distance(transform.position, this.player.transform.position) > DISTANCE_FROM_PLAYER)
         {
             this.FollowTarget(this.player.transform, this.Speed);
         }
@@ -220,19 +230,16 @@ public class Phoenix : Entity
             {
                 if (this.startMimicTiming)
                 {
-                    //Debug.Log("Last Sound Heard: " + this.lastSoundHeard.ToString());
                     if (this.mimicList.Count == 0)
                     {
                         this.mimicList.Enqueue(new SoundMimic(0f, this.lastSoundHeard));
-                        this.lastSoundHeard = SoundType.NONE;
-                        StartListeningToSound();
                     } else if (this.mimicList.Count > 0 && this.mimicList.Count < MAX_SOUNDS_TO_MIMIC)
                     {
-                        //Debug.Log("TIMING: " + this.mimicTiming);
                         this.mimicList.Enqueue(new SoundMimic(this.mimicTiming, this.lastSoundHeard));
-                        this.lastSoundHeard = SoundType.NONE;
-                        StartListeningToSound();
                     }
+                    this.lastSoundHeard = SoundType.NONE;
+                    if (this.mimicList.Count < MAX_SOUNDS_TO_MIMIC)
+                        StartListeningToSound();
                 }
             }
         }
@@ -298,6 +305,7 @@ public class Phoenix : Entity
 
     private void ListenAndRepeat()
     {
+        this.mimicList.Clear();
         this.isListeningAndRepeat = true;
     }
     #endregion
