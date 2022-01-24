@@ -5,15 +5,16 @@ TagManager:
   serializedVersion: 2
   tags:
   - Sound
+  - Phoenix
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Player
   - Water
   - UI
-  - 
-  - 
+  - Player Sound
+  - Enemy Sound
   - 
   - 
   - 

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class RuneScript : MonoBehaviour
+public class RuneScript : Lock
 {
     [SerializeField] float orbitInterval;
 
@@ -15,8 +15,6 @@ public class RuneScript : MonoBehaviour
 
     Controls controls;
     float oldRot;
-
-    bool activated;
 
     void Awake()
     { 
@@ -93,5 +91,5 @@ public class RuneScript : MonoBehaviour
         cursorTypes[type].SetActive(false);
     }
 
-    public bool IsActivated() { return activated; }
+
 }
