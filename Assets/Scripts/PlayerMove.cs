@@ -21,11 +21,6 @@ public class PlayerMove : MonoBehaviour
         controls.Player.PlayMusic.performed += PlayMusic;
     }
 
-    void Update()
-    {
-
-    }
-
     void FixedUpdate()
     {
         Move();
