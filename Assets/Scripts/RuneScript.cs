@@ -6,13 +6,14 @@ using UnityEngine.InputSystem;
 public class RuneScript : Lock
 {
     [SerializeField] float orbitInterval;
-
+    [SerializeField] Lock lockObject;
     [SerializeField] Transform cursorArm;
     [SerializeField] Transform cursor;
     [SerializeField] List<GameObject> cursorTypes;
     [SerializeField] List<RuneNote> notes;
 
     Controls controls;
+    Animator a;
     bool started;
 
     void Awake()
@@ -21,6 +22,7 @@ public class RuneScript : Lock
         controls = new Controls();
         controls.Player.Enable();
         controls.Player.PlayMusic.performed += PlayMusic;
+        a = GetComponent<Animator>();
     }
     void OnEnable()
     {
@@ -32,20 +34,23 @@ public class RuneScript : Lock
     // Update is called once per frame
     void Update()
     {
-        if (activated)
+        if (!lockObject.IsActivated() && started && !activated) {
+            cursorArm.rotation = Quaternion.identity;
+            started = false;
+            Reset();
+            a.SetBool("Start", false);
             return;
-
-        if (started)
-        {
-            cursorArm.Rotate(0, 0, -360 / orbitInterval * Time.deltaTime);
-            SuccessCheck();
+        } else if (activated) {
+            a.SetBool("End", true);
+            return;
         }
-
-        if (SuccessCheck() > 0)
-            started = true;
-
-
         
+        if (started) {
+            cursorArm.Rotate(0, 0, -360 / orbitInterval * Time.deltaTime);
+            a.SetBool("Start", true);
+            SuccessCheck();
+        } else if (SuccessCheck() > 0)
+            started = true; 
     }
 
     //checks if all notes are activated

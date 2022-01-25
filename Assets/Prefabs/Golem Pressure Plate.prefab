@@ -10,8 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6261893801413007627}
   - component: {fileID: 6261893801413007626}
-  - component: {fileID: 6261893801413007625}
-  - component: {fileID: 6261893801413007624}
+  - component: {fileID: 142825292470700811}
   - component: {fileID: 6261893801413007623}
   m_Layer: 0
   m_Name: Golem Pressure Plate
@@ -28,7 +27,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6261893801413007622}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -5.01, y: -3.3, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -74,8 +73,8 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: -2413806693520163455, guid: ebe73ca9363db456bacf42c025bb4847, type: 3}
-  m_Color: {r: 1, g: 0.8232528, b: 0.63584906, a: 1}
+  m_Sprite: {fileID: 21300000, guid: 457ec4d2896af37499ab9526b332cac3, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -85,29 +84,8 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!50 &6261893801413007625
-Rigidbody2D:
-  serializedVersion: 4
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6261893801413007622}
-  m_BodyType: 0
-  m_Simulated: 1
-  m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 0
-  m_Mass: 1
-  m_LinearDrag: 0
-  m_AngularDrag: 0.05
-  m_GravityScale: 0
-  m_Material: {fileID: 0}
-  m_Interpolate: 0
-  m_SleepingMode: 1
-  m_CollisionDetection: 0
-  m_Constraints: 0
---- !u!58 &6261893801413007624
-CircleCollider2D:
+--- !u!68 &142825292470700811
+EdgeCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -120,8 +98,26 @@ CircleCollider2D:
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
-  serializedVersion: 2
-  m_Radius: 0.25
+  m_EdgeRadius: 0
+  m_Points:
+  - {x: -0.89767814, y: 0.63362074}
+  - {x: 0.24169445, y: 0.81997967}
+  - {x: 0.62932116, y: 0.7677994}
+  - {x: 1.2927592, y: 0.32053757}
+  - {x: 1.2107613, y: 0.007454872}
+  - {x: 0.6815017, y: -0.37271786}
+  - {x: -0.4664696, y: -0.43235254}
+  - {x: -0.9137311, y: -0.2758112}
+  - {x: -1.1895424, y: 0.11926985}
+  - {x: 0.43192816, y: -0.21493912}
+  - {x: 0.89233553, y: 0.27019024}
+  - {x: 0.3619845, y: 0.54316425}
+  - {x: -1.192327, y: 0.13000345}
+  - {x: -0.91279846, y: 0.61219025}
+  m_AdjacentStartPoint: {x: 0, y: 0}
+  m_AdjacentEndPoint: {x: 0, y: 0}
+  m_UseAdjacentStartPoint: 0
+  m_UseAdjacentEndPoint: 0
 --- !u!114 &6261893801413007623
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -135,5 +131,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   activated: 0
-  triggeredObject: {fileID: 0}
   tagName: Player
+  off: {fileID: 21300000, guid: 457ec4d2896af37499ab9526b332cac3, type: 3}
+  on: {fileID: 21300000, guid: 24302f9656a9dd547b9c074a260093a4, type: 3}
