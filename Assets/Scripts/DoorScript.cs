@@ -39,7 +39,6 @@ public class DoorScript : MonoBehaviour
     {
         foreach(Lock locc in locks)
         {
-            Debug.Log(locc.IsActivated());
             if (!locc.IsActivated())
                 return;
         }
