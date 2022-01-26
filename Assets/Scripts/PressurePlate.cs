@@ -4,8 +4,15 @@ using UnityEngine;
 
 public class PressurePlate : Lock
 {
-    [SerializeField] GameObject triggeredObject;
     [SerializeField] string tagName;
+    [Header("Sprites")]
+    [SerializeField] Sprite off;
+    [SerializeField] Sprite on;
+    SpriteRenderer sr;
+
+    void Start() {
+        sr = GetComponent<SpriteRenderer>();
+    }
 
     void OnTriggerEnter2D(Collider2D collider)
     {
@@ -13,8 +20,8 @@ public class PressurePlate : Lock
         if (colGO.tag != tagName)
             return;
 
-        triggeredObject.SetActive(true);
         activated = true;
+        sr.sprite = on;
     }
 
     void OnTriggerExit2D(Collider2D collider)
@@ -23,7 +30,7 @@ public class PressurePlate : Lock
         if (colGO.tag != tagName)
             return;
 
-        triggeredObject.SetActive(false);
         activated = false;
+        sr.sprite = off;
     }
 }

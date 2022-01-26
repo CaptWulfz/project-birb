@@ -8,6 +8,13 @@ public class SoundScript : Poolable
     [SerializeField] float speed;
     [SerializeField] SoundType soundType;
 
+    private string ownerSource;
+    public string OwnerSource
+    {
+        get { return this.ownerSource; }
+        set { this.ownerSource = value; }
+    }
+
     float time;
     Rigidbody2D rb;
 

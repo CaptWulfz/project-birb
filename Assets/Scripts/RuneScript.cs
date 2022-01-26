@@ -6,15 +6,15 @@ using UnityEngine.InputSystem;
 public class RuneScript : Lock
 {
     [SerializeField] float orbitInterval;
-
+    [SerializeField] Lock lockObject;
     [SerializeField] Transform cursorArm;
     [SerializeField] Transform cursor;
-    
     [SerializeField] List<GameObject> cursorTypes;
     [SerializeField] List<RuneNote> notes;
 
     Controls controls;
-    float oldRot;
+    Animator a;
+    bool started;
 
     void Awake()
     { 
@@ -22,46 +22,57 @@ public class RuneScript : Lock
         controls = new Controls();
         controls.Player.Enable();
         controls.Player.PlayMusic.performed += PlayMusic;
+        a = GetComponent<Animator>();
     }
     void OnEnable()
     {
         cursorArm.rotation = Quaternion.identity;
-        foreach (RuneNote note in notes)
-            note.SetActivated(false);
+        started = false;
+        Reset();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (activated)
+        if (!lockObject.IsActivated() && started && !activated) {
+            cursorArm.rotation = Quaternion.identity;
+            started = false;
+            Reset();
+            a.SetBool("Start", false);
             return;
-
-        cursorArm.Rotate(0, 0, -360 / orbitInterval * Time.deltaTime);
-        SuccessCheck();
-        ResetCheck();
+        } else if (activated) {
+            a.SetBool("End", true);
+            return;
+        }
+        
+        if (started) {
+            cursorArm.Rotate(0, 0, -360 / orbitInterval * Time.deltaTime);
+            a.SetBool("Start", true);
+            SuccessCheck();
+        } else if (SuccessCheck() > 0)
+            started = true; 
     }
 
     //checks if all notes are activated
-    void SuccessCheck()
+    int SuccessCheck()
     {
+        int successes = 0;
         foreach (RuneNote note in notes)
         {
-            if (!note.IsActivated())
-                return;
+            if (note.IsActivated())    
+                successes++;
         }
-        activated = true;   
+        if(successes >= notes.Count)
+            activated = true;
+
+        return successes;
     }
 
-    //checks if it does a full revolution and resets 
-    void ResetCheck()
+    //resets
+    public void Reset()
     {
-        float currentRot = cursorArm.rotation.eulerAngles.z;
-        if (oldRot < 180 && currentRot >= 180)
-        {
-            foreach (RuneNote note in notes)
-                note.SetActivated(false);
-        }
-        oldRot = currentRot;
+        foreach (RuneNote note in notes)
+            note.SetActivated(false);
     }
 
     //Executed when SPACE is pressed

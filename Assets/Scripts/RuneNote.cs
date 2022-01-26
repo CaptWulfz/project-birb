@@ -6,7 +6,9 @@ public class RuneNote : MonoBehaviour
 {
     [SerializeField] int noteType;
     [SerializeField] bool activated;
-    [SerializeField] GameObject signal;
+    [Header("Sprites")]
+    [SerializeField] Sprite off;
+    [SerializeField] Sprite on;
 
     SpriteRenderer sr;
 
@@ -15,14 +17,13 @@ public class RuneNote : MonoBehaviour
         sr = GetComponent<SpriteRenderer>();
     }
 
+    void Update() {
+        sr.sprite = activated ? on : off;
+    }
+
     public int GetNoteType() { return noteType; }
     public bool IsActivated() { return activated; }
     public void SetActivated(bool activated) {
-        if (activated)
-            signal.SetActive(true);
-        else
-            signal.SetActive(false);
-
         this.activated = activated; 
     }
 
