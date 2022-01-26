@@ -39,7 +39,6 @@ public class Phoenix : Entity
     [SerializeField] List<ObjectPool> soundPools;
 
     private const float DISTANCE_FROM_PLAYER = 1.5f;
-    private const float MAX_DISTANCE_FOR_WALK = 5f;
     private const float SOUND_COOLDOWN_VALUE = 2f;
     private const float MIMIC_SOUND_DELAY = 3f;
     private const int MAX_SOUNDS_TO_MIMIC = 4;
@@ -61,8 +60,14 @@ public class Phoenix : Entity
     private float mimicTiming = 0f;
     private float mimicSoundDelay = 0f;
 
+    Vector2 target;
+    Animator a;
+    SpriteRenderer sr;
+
     private void Start()
     {
+        a = GetComponent<Animator>();
+        sr = GetComponent<SpriteRenderer>();
         Initialize();
     }
 
@@ -131,10 +136,11 @@ public class Phoenix : Entity
 
         if (this.movingInDirection)
         {
-            if (Vector2.Distance(transform.position, this.player.transform.position) >= MAX_DISTANCE_FOR_WALK)
+            if (Vector2.Distance(transform.position, target) < 0.5f)
             {
                 this.movingInDirection = false;
                 this.MovePosition(new Vector2(0f, 0f));
+                a.SetBool("Fly", false);
             }
         }
     }
@@ -188,7 +194,11 @@ public class Phoenix : Entity
         if (Vector2.Distance(transform.position, this.player.transform.position) > DISTANCE_FROM_PLAYER)
         {
             this.FollowTarget(this.player.transform, this.Speed);
-        }
+            float dir = (this.player.transform.position.x - transform.position.x);
+            sr.flipX = (dir > 0f) ? false : true;
+            a.SetBool("Walk", true);
+        } else
+            a.SetBool("Walk", false);
     }
 
     private void EvaluateSound()
@@ -217,7 +227,7 @@ public class Phoenix : Entity
 
     private IEnumerator ListenToSound()
     {
-        yield return new WaitUntil(() => { return this.lastSoundHeard != SoundType.NONE && this.canListenToSound; });
+        yield return new WaitUntil(() => { return this.lastSoundHeard != SoundType.NONE && this.canListenToSound && !movingInDirection; });
 
         if (this.canListenToSound)
         {
@@ -261,6 +271,7 @@ public class Phoenix : Entity
     {
         //Debug.Log("Hold Position");
         this.allowMove = false;
+        a.SetBool("Walk", false);
     }
 
     private void ComeToMe()
@@ -280,25 +291,31 @@ public class Phoenix : Entity
             case PlayerOrientation.UP:
                 xMov = 0;
                 yMov = this.Speed;
+                a.SetBool("Fly", true);
                 break;
             case PlayerOrientation.DOWN:
                 xMov = 0;
                 yMov = -this.Speed;
+                a.SetBool("Fly", true);
                 break;
             case PlayerOrientation.LEFT:
                 xMov = -this.Speed;
                 yMov = 0;
+                a.SetBool("Fly", true);
+                sr.flipX = true;
                 break;
             case PlayerOrientation.RIGHT:
                 xMov = this.Speed;
                 yMov = 0;
+                a.SetBool("Fly", true);
+                sr.flipX = false;
                 break;
             default:
                 xMov = 0;
                 yMov = 0;
                 break;
         }
-
+        target = new Vector2(transform.position.x + xMov, transform.position.y + yMov);
         this.MovePosition(new Vector2(xMov, yMov));
         this.movingInDirection = true;
     }
@@ -360,7 +377,8 @@ public class Phoenix : Entity
     #region Override Collider Events
     protected override void OnTriggerEnter2D(Collider2D collision)
     {
-        base.OnTriggerEnter2D(collision);
+        if (canListenToSound)
+            base.OnTriggerEnter2D(collision);
         //Debug.Log("Last Sound Heard: " + this.lastSoundHeard.ToString());
     }
     #endregion
