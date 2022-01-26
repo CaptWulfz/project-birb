@@ -4,33 +4,53 @@ using UnityEngine;
 
 public class PressurePlate : Lock
 {
-    [SerializeField] string tagName;
-    [Header("Sprites")]
-    [SerializeField] Sprite off;
-    [SerializeField] Sprite on;
-    SpriteRenderer sr;
+    [SerializeField] GameObject pressure;
+    [Header("Plate Sprites")]
+    [SerializeField] Sprite offPlate;
+    [SerializeField] Sprite onPlate;
+    SpriteRenderer srPlate;
+
+    bool player = false;
+    bool phoenix = false;
 
     void Start() {
-        sr = GetComponent<SpriteRenderer>();
+        srPlate = GetComponent<SpriteRenderer>();
     }
 
     void OnTriggerEnter2D(Collider2D collider)
     {
+        if (done)
+            return;
         GameObject colGO = collider.gameObject;
-        if (colGO.tag != tagName)
+        if (colGO.tag == "Player")
+            player = true;
+        else if (colGO.tag == "Phoenix")
+            phoenix = true;
+        else
             return;
 
         activated = true;
-        sr.sprite = on;
+        srPlate.sprite = onPlate;
+        pressure.SetActive(true);
     }
 
     void OnTriggerExit2D(Collider2D collider)
     {
+        if (done)
+            return;
         GameObject colGO = collider.gameObject;
-        if (colGO.tag != tagName)
+        if (colGO.tag == "Player")
+            player = false;
+        else if (colGO.tag == "Phoenix")
+            phoenix = false;
+        else
+            return;
+        
+        if (player || phoenix)
             return;
 
         activated = false;
-        sr.sprite = off;
+        srPlate.sprite = offPlate;
+        pressure.SetActive(false);
     }
 }

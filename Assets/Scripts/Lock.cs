@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Lock : MonoBehaviour
 {
-    [SerializeField] protected bool activated;
+    protected bool activated = false;
+    protected bool done = false;
     public bool IsActivated() { return activated; }
+    public void SetDone() { done = true; }
 }

@@ -51,6 +51,7 @@ public class Phoenix : Entity
     private bool allowMove = true;
     private bool movingInDirection = false;
     private bool canListenToSound = true;
+    public bool onRunePlate = false;
 
     private bool isListeningAndRepeat = false;
     private bool startMimicTiming = false;
@@ -84,13 +85,14 @@ public class Phoenix : Entity
 
     private void Update()
     {
+        if (onRunePlate) {
+            this.soundCooldown = SOUND_COOLDOWN_VALUE;
+            this.canListenToSound = false;
+        }
         if ((int) this.soundCooldown > 0f)
-        {
             this.soundCooldown -= Time.deltaTime;
-        } else
-        {
-            if (!this.canListenToSound)
-            {
+        else {
+            if (!this.canListenToSound) {
                 this.soundCooldown = 0f;
                 this.canListenToSound = true;
                 Debug.Log("CAN LISTEN TO SOUND AGAIN!");
@@ -377,7 +379,7 @@ public class Phoenix : Entity
     #region Override Collider Events
     protected override void OnTriggerEnter2D(Collider2D collision)
     {
-        if (canListenToSound)
+        if (canListenToSound && !onRunePlate && soundCooldown <= 0f)
             base.OnTriggerEnter2D(collision);
         //Debug.Log("Last Sound Heard: " + this.lastSoundHeard.ToString());
     }
