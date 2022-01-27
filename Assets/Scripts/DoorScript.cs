@@ -5,6 +5,7 @@ using UnityEngine;
 public class DoorScript : MonoBehaviour
 {
     [SerializeField] List<Lock> locks;
+    [SerializeField] GameObject doneIndicator;
     bool activated;
     Vector3 target;
 
@@ -18,17 +19,26 @@ public class DoorScript : MonoBehaviour
             CheckLocks();
             return;
         } else {
-            transform.parent.position = Vector3.MoveTowards(transform.position, target, Time.deltaTime);
-            transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.Euler(0, 0, -90), Time.deltaTime*18);
+            transform.position = Vector3.MoveTowards(transform.position, target, Time.deltaTime);
+            if (transform.position == target) {
+                this.enabled = false;
+                return;
+            }
+            foreach(Transform child in transform) {
+                child.rotation = Quaternion.RotateTowards(child.rotation, Quaternion.Euler(0, 0, -90), Time.deltaTime*18);
+            }
+            doneIndicator.SetActive(true);
         }
     }
 
     void CheckLocks()
     {
-        foreach(Lock locc in locks)
-        {
+        foreach(Lock locc in locks) {
             if (!locc.IsActivated())
                 return;
+        }
+        foreach(Lock locc in locks) {
+            locc.SetDone();
         }
         OpenDoor();
     }

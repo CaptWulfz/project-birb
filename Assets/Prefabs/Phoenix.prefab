@@ -163,6 +163,7 @@ MonoBehaviour:
   - {fileID: 7681191109074528699}
   - {fileID: 8398801980600452627}
   - {fileID: 4251257056847107514}
+  onRunePlate: 0
 --- !u!50 &4757831847007844243
 Rigidbody2D:
   serializedVersion: 4

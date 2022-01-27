@@ -34,14 +34,17 @@ public class RuneScript : Lock
     // Update is called once per frame
     void Update()
     {
+        if (done) {
+            lockObject.SetDone();
+            a.SetBool("End", true);
+            this.enabled = false;
+            return;
+        }
         if (!lockObject.IsActivated() && started && !activated) {
             cursorArm.rotation = Quaternion.identity;
             started = false;
             Reset();
             a.SetBool("Start", false);
-            return;
-        } else if (activated) {
-            a.SetBool("End", true);
             return;
         }
         
