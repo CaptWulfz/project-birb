@@ -30,6 +30,7 @@ public class RunePlate : Lock
         srPlate.sprite = onPlate;
         srFrame.sprite = onFrame;
         phoenix.onRunePlate = true;
+        AudioManager.Instance.PlayAudio(AudioKeys.SFX, SFXKeys.ANCIENT_RUNE_ACTIVATE);
     }
 
     void OnTriggerExit2D(Collider2D collider)

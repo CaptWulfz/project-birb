@@ -49,7 +49,7 @@ public class Entity : MonoBehaviour
         //Debug.Log(string.Format("Collision Detected! Entity {0} got hit by {1}", this.gameObject.name, collision.gameObject.name));
     }
 
-    protected void OnCollisionExit2D(Collision2D collision)
+    protected virtual void OnCollisionExit2D(Collision2D collision)
     {
         
     }

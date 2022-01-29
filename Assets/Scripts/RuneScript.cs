@@ -12,22 +12,20 @@ public class RuneScript : Lock
     [SerializeField] List<GameObject> cursorTypes;
     [SerializeField] List<RuneNote> notes;
 
-    Controls controls;
     Animator a;
     bool started;
+    bool onPlate = false;
 
     void Awake()
-    { 
+    {
         //Input system shenanigans
-        controls = new Controls();
-        controls.Player.Enable();
-        controls.Player.PlayMusic.performed += PlayMusic;
         a = GetComponent<Animator>();
     }
     void OnEnable()
     {
         cursorArm.rotation = Quaternion.identity;
         started = false;
+        this.onPlate = false;
         Reset();
     }
 
@@ -38,16 +36,27 @@ public class RuneScript : Lock
             lockObject.SetDone();
             a.SetBool("End", true);
             this.enabled = false;
+            this.onPlate = false;
+            InputManager.Instance.GetControls().Player.PlayMusic.performed -= PlayMusic;
             return;
         }
         if (!lockObject.IsActivated() && started && !activated) {
             cursorArm.rotation = Quaternion.identity;
             started = false;
+            AudioManager.Instance.PlayAudio(AudioKeys.SFX, SFXKeys.ANCIENT_RUNE_PUZZLE_FAILED);
+            InputManager.Instance.GetControls().Player.PlayMusic.performed -= PlayMusic;
+            onPlate = false;
             Reset();
             a.SetBool("Start", false);
             return;
         }
-        
+
+        if (lockObject.IsActivated() && !onPlate)
+        {
+            this.onPlate = true;
+            InputManager.Instance.GetControls().Player.PlayMusic.performed += PlayMusic;
+        }
+
         if (started) {
             cursorArm.Rotate(0, 0, -360 / orbitInterval * Time.deltaTime);
             a.SetBool("Start", true);
@@ -82,8 +91,8 @@ public class RuneScript : Lock
     void PlayMusic(InputAction.CallbackContext context)
     {
         //Input system shenanigans
-        bool note1 = controls.Player.Note1.ReadValue<float>() != 0;
-        bool note2 = controls.Player.Note2.ReadValue<float>() != 0;
+        bool note1 = InputManager.Instance.GetControls().Player.Note1.ReadValue<float>() != 0;
+        bool note2 = InputManager.Instance.GetControls().Player.Note2.ReadValue<float>() != 0;
 
         if (note1 && note2)
             StartCoroutine(MakeSound(3));

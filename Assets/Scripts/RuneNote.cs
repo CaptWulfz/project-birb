@@ -33,5 +33,25 @@ public class RuneNote : MonoBehaviour
             return;
 
         SetActivated(true);
+
+        //string key = SFXKeys.ANCIENT_RUNE_FLUTE_00;
+        //switch (noteType)
+        //{
+        //    case 0:
+        //        key = SFXKeys.ANCIENT_RUNE_FLUTE_00;
+        //        break;
+        //    case 1:
+        //        key = SFXKeys.ANCIENT_RUNE_FLUTE_01;
+        //        break;
+        //    case 2:
+        //        key = SFXKeys.ANCIENT_RUNE_FLUTE_10;
+        //        break;
+        //    case 3:
+        //        key = SFXKeys.ANCIENT_RUNE_FLUTE_11;
+        //        break;
+        //}
+
+        //AudioManager.Instance.PlayAudio(AudioKeys.SFX, key);
+
     }
 }

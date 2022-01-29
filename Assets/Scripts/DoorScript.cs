@@ -45,6 +45,7 @@ public class DoorScript : MonoBehaviour
    
     void OpenDoor() {
         activated = true;
+        AudioManager.Instance.PlayAudio(AudioKeys.SFX, SFXKeys.ANCIENT_RUNE_PUZZLE_SOLVED);
     }
 
 }

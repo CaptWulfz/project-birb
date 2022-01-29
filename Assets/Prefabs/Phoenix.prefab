@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 196518240256494358}
   - component: {fileID: 4251257056847107514}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: BlueSound
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -68,7 +68,7 @@ GameObject:
   - component: {fileID: 4757831847007844243}
   - component: {fileID: 4757831847007844242}
   - component: {fileID: 1161241007}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Phoenix
   m_TagString: Phoenix
   m_Icon: {fileID: 0}
@@ -195,7 +195,7 @@ CircleCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: -1.8}
@@ -230,7 +230,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8942097335506359151}
   - component: {fileID: 8398801980600452627}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: YellowSound
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -284,7 +284,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2923194685709505692}
   - component: {fileID: 3648538454785892888}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: RedSound
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -338,7 +338,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5967250676814535676}
   - component: {fileID: 7681191109074528699}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: GreenSound
   m_TagString: Untagged
   m_Icon: {fileID: 0}
