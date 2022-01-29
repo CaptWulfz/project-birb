@@ -21,6 +21,6 @@ EditorBuildSettings:
     path: Assets/Scenes/Level Mockups/Level4Mockup.unity
     guid: b7937dadc1164e1499d29daa856497be
   - enabled: 1
-    path: Assets/Scenes/MasterScene.unity
+    path: Assets/Scenes/Level Mockups/MasterScene.unity
     guid: 8d858a4ca49d9a0418991034db3eaa54
   m_configObjects: {}

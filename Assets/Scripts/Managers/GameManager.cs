@@ -12,7 +12,9 @@ public class GameManager : Singleton<GameManager>
 
     public void Start()
     {
-        level = 4;
+        level = 1;
+        InputManager.Instance.GetControls().Player.Enable();
+        Physics2D.IgnoreLayerCollision(8, 9, true);
         LoadLevel();
         AudioManager.Instance.PlayAudio(AudioKeys.MUSIC, MusicKeys.THEME);
         AudioManager.Instance.ToggleLoop(AudioKeys.MUSIC, true);

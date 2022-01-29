@@ -38,13 +38,14 @@ public class Player : Entity
         this.Speed = 5f;
         this.currOrientation = PlayerOrientation.UP;
         this.EntityControls = InputManager.Instance.GetControls();
-        this.EntityControls.Player.Enable();
-        this.EntityControls.Player.PlayMusic.performed += PlayMusic;
+        
     }
 
     private void Update()
     {
         DetermineOrientation();
+        if (this.EntityControls.Player.PlayMusic.WasPressedThisFrame())
+            PlayMusic();
     }
 
     private void FixedUpdate()
@@ -103,7 +104,7 @@ public class Player : Entity
             this.currOrientation = PlayerOrientation.RIGHT;
     }
 
-    void PlayMusic(InputAction.CallbackContext context)
+    void PlayMusic()
     {
         bool note1 = this.EntityControls.Player.Note1.ReadValue<float>() != 0;
         bool note2 = this.EntityControls.Player.Note2.ReadValue<float>() != 0;

@@ -60,10 +60,12 @@ public class Phoenix : Entity
     private float soundCooldown = 0f;
     private float mimicTiming = 0f;
     private float mimicSoundDelay = 0f;
+    private float movingTime = 0f;
 
-    Vector2 target;
-    Animator a;
-    SpriteRenderer sr;
+    private Vector2 initialPosition;
+    private Vector2 target;
+    private Animator a;
+    private SpriteRenderer sr;
 
     private void Start()
     {
@@ -79,6 +81,7 @@ public class Phoenix : Entity
         this.soundCooldown = 0f;
         this.mimicSoundDelay = MIMIC_SOUND_DELAY;
         this.mimicList = new Queue<SoundMimic>();
+        Physics2D.IgnoreCollision(this.GetComponent<Collider2D>(), player.GetComponent<Collider2D>());
         StartListeningToSound();
     }
 
@@ -138,11 +141,13 @@ public class Phoenix : Entity
 
         if (this.movingInDirection)
         {
-            if (Vector2.Distance(transform.position, target) < 0.5f)
+            this.movingTime += Time.deltaTime;
+            if (Vector2.Distance(transform.position, target) < 0.5f || (this.movingTime >= 2f && Vector2.Distance(this.initialPosition, this.transform.position) < 0.2f))
             {
                 this.movingInDirection = false;
                 this.MovePosition(new Vector2(0f, 0f));
                 a.SetBool("Fly", false);
+                this.movingTime = 0f;
             }
         }
     }
@@ -317,6 +322,7 @@ public class Phoenix : Entity
                 yMov = 0;
                 break;
         }
+        this.initialPosition = new Vector2(this.transform.position.x, this.transform.position.y);
         target = new Vector2(transform.position.x + xMov, transform.position.y + yMov);
         this.MovePosition(new Vector2(xMov, yMov));
         this.movingInDirection = true;
@@ -377,8 +383,27 @@ public class Phoenix : Entity
     #endregion
 
     #region Override Collider Events
+    protected override void OnCollisionEnter2D(Collision2D collision)
+    {
+        base.OnCollisionEnter2D(collision);
+        if (this.movingInDirection)
+        {
+            this.movingInDirection = false;
+            this.MovePosition(new Vector2(0f, 0f));
+            a.SetBool("Fly", false);
+            this.movingTime = 0f;
+        }
+    }
+
+    protected override void OnCollisionExit2D(Collision2D collision)
+    {
+        //Debug.Log("QQQ Exited Collision with: " + collision.gameObject.name);
+        base.OnCollisionExit2D(collision);
+    }
+
     protected override void OnTriggerEnter2D(Collider2D collision)
     {
+        //Debug.Log("QQQ Trigger: " + collision.gameObject.name);
         if (canListenToSound && !onRunePlate && soundCooldown <= 0f)
             base.OnTriggerEnter2D(collision);
         //Debug.Log("Last Sound Heard: " + this.lastSoundHeard.ToString());

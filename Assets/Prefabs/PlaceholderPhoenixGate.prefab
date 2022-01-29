@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2496307319999701922}
   - component: {fileID: 2249725366538557418}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: PlaceholderPhoenixGate
   m_TagString: Untagged
   m_Icon: {fileID: 0}
