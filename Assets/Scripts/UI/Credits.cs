@@ -17,6 +17,7 @@ public class Credits : MonoBehaviour
         this.yPos = 1f;
         this.speed = 0.05f;
         this.playAgainButton.gameObject.SetActive(false);
+        this.scrollRect.normalizedPosition = new Vector2(0, 1);
         StartCoroutine(DelayCredits());
     }
 

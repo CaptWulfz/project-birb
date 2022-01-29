@@ -15,7 +15,8 @@ public class GameManager : Singleton<GameManager>
 
     public void Start()
     {
-        InitializeGame(4); 
+        AudioManager.Instance.Initialize();
+        InitializeGame(1);
         Physics2D.IgnoreLayerCollision(8, 9, true);
         DontDestroyOnLoad(this);
     }
@@ -25,10 +26,10 @@ public class GameManager : Singleton<GameManager>
         this.level = level;
         this.cam.gameObject.SetActive(false);
         this.credits.gameObject.SetActive(false);
-        AudioManager.Instance.PlayAudio(AudioKeys.MUSIC, MusicKeys.THEME);
-        AudioManager.Instance.ToggleLoop(AudioKeys.MUSIC, true);
         InputManager.Instance.GetControls().Player.Enable();
         LoadLevel();
+        AudioManager.Instance.PlayAudio(AudioKeys.MUSIC, MusicKeys.THEME);
+        AudioManager.Instance.ToggleLoop(AudioKeys.MUSIC, true);
     }
 
     public void NextLevel()
