@@ -12,7 +12,7 @@ public class GameManager : Singleton<GameManager>
 
     public void Start()
     {
-        level = 1;
+        level = 4;
         InputManager.Instance.GetControls().Player.Enable();
         Physics2D.IgnoreLayerCollision(8, 9, true);
         LoadLevel();
