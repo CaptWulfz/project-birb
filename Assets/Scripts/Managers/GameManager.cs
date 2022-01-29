@@ -17,8 +17,6 @@ public class GameManager : Singleton<GameManager>
     {
         InitializeGame(4); 
         Physics2D.IgnoreLayerCollision(8, 9, true);
-        AudioManager.Instance.PlayAudio(AudioKeys.MUSIC, MusicKeys.THEME);
-        AudioManager.Instance.ToggleLoop(AudioKeys.MUSIC, true);
         DontDestroyOnLoad(this);
     }
 
@@ -27,6 +25,8 @@ public class GameManager : Singleton<GameManager>
         this.level = level;
         this.cam.gameObject.SetActive(false);
         this.credits.gameObject.SetActive(false);
+        AudioManager.Instance.PlayAudio(AudioKeys.MUSIC, MusicKeys.THEME);
+        AudioManager.Instance.ToggleLoop(AudioKeys.MUSIC, true);
         InputManager.Instance.GetControls().Player.Enable();
         LoadLevel();
     }
@@ -39,6 +39,7 @@ public class GameManager : Singleton<GameManager>
             UnloadLevel();
             this.credits.gameObject.SetActive(true);
             this.cam.gameObject.SetActive(true);
+            AudioManager.Instance.PlayAudio(AudioKeys.MUSIC, MusicKeys.ROCKALAVANIA);
             return;
 //#if UNITY_EDITOR
 //            UnityEditor.EditorApplication.isPlaying = false;

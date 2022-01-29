@@ -25,7 +25,6 @@ public class Credits : MonoBehaviour
         if (this.startCredits)
         {
             this.yPos -= speed * Time.deltaTime;
-            Debug.Log("YPos: " + yPos);
             this.scrollRect.normalizedPosition = new Vector2(0, yPos);
         }
 
