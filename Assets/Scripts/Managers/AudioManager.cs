@@ -146,4 +146,5 @@ public class MusicKeys
 {
     public const string THEME = "Theme";
     public const string BOSS_1 = "Boss_1";
+    public const string ROCKALAVANIA = "Rockalavania";
 }

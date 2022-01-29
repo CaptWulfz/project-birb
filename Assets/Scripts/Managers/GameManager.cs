@@ -5,6 +5,9 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : Singleton<GameManager>
 {
+    [SerializeField] Credits credits;
+    [SerializeField] Camera cam;
+
     private const int MAX_LEVEL = 4;
     private const string LEVEL_TEMPLATE = "Level{0}Mockup";
 
@@ -12,24 +15,38 @@ public class GameManager : Singleton<GameManager>
 
     public void Start()
     {
-        level = 4;
-        InputManager.Instance.GetControls().Player.Enable();
+        AudioManager.Instance.Initialize();
+        InitializeGame(1);
         Physics2D.IgnoreLayerCollision(8, 9, true);
+        DontDestroyOnLoad(this);
+    }
+
+    public void InitializeGame(int level)
+    {
+        this.level = level;
+        this.cam.gameObject.SetActive(false);
+        this.credits.gameObject.SetActive(false);
+        InputManager.Instance.GetControls().Player.Enable();
         LoadLevel();
         AudioManager.Instance.PlayAudio(AudioKeys.MUSIC, MusicKeys.THEME);
         AudioManager.Instance.ToggleLoop(AudioKeys.MUSIC, true);
-        DontDestroyOnLoad(this);
     }
 
     public void NextLevel()
     {
         if (level >= MAX_LEVEL)
         {
-#if UNITY_EDITOR
-            UnityEditor.EditorApplication.isPlaying = false;
-#else
-            Application.Quit();
-#endif
+            InputManager.Instance.GetControls().Player.Disable();
+            UnloadLevel();
+            this.credits.gameObject.SetActive(true);
+            this.cam.gameObject.SetActive(true);
+            AudioManager.Instance.PlayAudio(AudioKeys.MUSIC, MusicKeys.ROCKALAVANIA);
+            return;
+//#if UNITY_EDITOR
+//            UnityEditor.EditorApplication.isPlaying = false;
+//#else
+//            Application.Quit();
+//#endif
         }
 
         UnloadLevel();
